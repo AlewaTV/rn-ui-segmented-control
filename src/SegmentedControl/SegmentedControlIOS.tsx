@@ -1,13 +1,19 @@
-import { StyleSheet, View } from "react-native";
-import type { SegmentedControlStyle } from "../@types/style";
+import { StyleSheet, Text, View } from "react-native";
+import type { SegmentedControlProps, SegmentedControlStyle } from "../@types";
 
-export default function SegmentedControlIOS() {
+export interface SegmentedControlIOSProps extends SegmentedControlProps {
+  
+}
+
+export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = ({}) => {
   return (
-    <View>
-      
+    <View style={[styles.tabsContainerStyle]}>
+      <Text>{'YO YO YO'}</Text>
     </View>
   )
 }
+
+export default SegmentedControlIOS
 
 const styles: SegmentedControlStyle = StyleSheet.create({
   tabsContainerStyle: {

@@ -1,11 +1,16 @@
 import { Platform } from "react-native";
-import SegmentedControlIOS from "./SegmentedControlIOS";
-import SegmentedControlAndroid from "./SegmentedControlAndroid";
+import SegmentedControlIOS, { type SegmentedControlIOSProps } from "./SegmentedControlIOS";
+import SegmentedControlAndroid, { type SegmentedControlAndroidProps } from "./SegmentedControlAndroid";
 
-const SegmentedControl = Platform.OS === 'ios' 
-          ? SegmentedControlIOS
-          : Platform.OS === 'android' 
-          ? SegmentedControlAndroid
-          : undefined
+export const SegmentedControl = Platform.OS === 'android' 
+                      ? SegmentedControlAndroid
+                      : SegmentedControlIOS
+
+export { 
+  SegmentedControlIOS, 
+  SegmentedControlAndroid,
+  type SegmentedControlIOSProps, 
+  type SegmentedControlAndroidProps
+}
 
 export default SegmentedControl

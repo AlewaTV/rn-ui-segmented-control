@@ -1,3 +1,15 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
+export { 
+  SegmentedControl, 
+  SegmentedControlIOS, 
+  SegmentedControlAndroid, 
+  type SegmentedControlIOSProps, 
+  type SegmentedControlAndroidProps 
+} from './SegmentedControl';
+
+export { 
+  Segment, 
+  SegmentIOS,
+  SegmentAndroid,
+  type SegmentIOSProps,
+  type SegmentAndroidProps
+} from './Segment';
