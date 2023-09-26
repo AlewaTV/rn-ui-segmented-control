@@ -1,13 +1,14 @@
-import { StyleSheet, View, Animated } from 'react-native';
+import { StyleSheet, View, Animated, type StyleProp, type ViewStyle } from 'react-native';
 import type { SegmentedControlProps } from '../types';
 import { useEffect, useRef, useState } from 'react';
 import SegmentIOS from '../Segment/SegmentIOS';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { PlatformColor } from 'react-native';
 import { segmentStylesIOS } from '../Segment/SegmentIOS';
 import { easeOutCubic } from '../utils';
 
 export interface SegmentedControlIOSProps extends SegmentedControlProps {
+  buttonStyle?: StyleProp<ViewStyle>
   easing?: (x: number) => number
 }
 
@@ -20,8 +21,8 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
 
     style,
     segmentStyle,
+    buttonStyle,
     labelStyle,
-    activeSegmentStyle,
     activeLabelStyle,
     separatorStyle,
   } = props
@@ -72,7 +73,6 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   }
   
   return (
-    <GestureHandlerRootView>
     <View style={[styles.container, style]}>
       <GestureDetector gesture={panGesture}>
         <View
@@ -85,8 +85,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
             style={[
             { width: segmentWidth },
             styles.segment, segmentStyle,
-            styles.activeSegment, activeSegmentStyle,
-            styles.animatedView,
+            styles.button, buttonStyle,
             { transform: [{translateX: slideAnimRef}] }
           ]}
           />
@@ -99,7 +98,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
               isLast={index === length - 1}
               renderLeftSeparator={ renderSeparators }
               key={index}
-              style={[segmentStyle, {width: segmentWidth,}]}
+              style={[segmentStyle, {width: segmentWidth}]}
               labelStyle={labelStyle}
               activeLabelStyle={activeLabelStyle}
               separatorStyle={[separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]}
@@ -108,7 +107,6 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
         </View>
       </GestureDetector>
     </View>
-    </GestureHandlerRootView>
   )
 }
 
@@ -121,16 +119,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: PlatformColor('systemGroupedBackground'),
-    borderRadius: 7,
+    borderRadius: 8,
 
     // borderColor: 'blue', // PlatformColor('separator'),
     // borderWidth: 0.6,
-    paddingVertical: 1.5,
+    paddingVertical: 3,
     paddingHorizontal: 3,
   },
   segments: {
     position: 'relative',
-    minHeight: 40,
+    minHeight: 36,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -138,12 +136,12 @@ const styles = StyleSheet.create({
     // borderColor: 'red', // PlatformColor('separator'),
     // borderWidth: 0.6,
   },
-  segment: segmentStylesIOS.segment,
-  activeSegment: segmentStylesIOS.activeSegment,
-  animatedView: {
-    top: 0,// iosTabVerticalSpacing,
-    bottom: 0, //iosTabVerticalSpacing,
+  button: {
+    top: 0,
+    bottom: 0,
     position: 'absolute',
+
+    backgroundColor: PlatformColor('systemBackground'),
 
     shadowColor: 'rgba(0,0,0,1)',
     shadowOffset: {
@@ -152,5 +150,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.07,
     shadowRadius: 4.65,
-  }
+  },
+  segment: segmentStylesIOS.segment,
+  activeSegment: segmentStylesIOS.activeSegment,
 })

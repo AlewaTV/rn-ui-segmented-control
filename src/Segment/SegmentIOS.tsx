@@ -30,7 +30,7 @@ export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
     ]}>
       {renderLeftSeparator && (
         <View
-          style={[styles.separator, separatorStyle]}
+          style={[styles.separator, separatorStyle, {opacity: 1, backgroundColor: 'red'}]}
           collapsable={false}
         />
       )}
@@ -62,30 +62,28 @@ export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
 export default SegmentIOS
 
 
-const borderRadius = 7;
-const gap = 1.5;
-
-export const iosTabVerticalSpacing = gap;
-
-
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     flexDirection: 'row', 
     alignItems: 'center', 
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   separator: {
+    flex: 1,
     height: '50%',
-    width: 1,
-    backgroundColor: PlatformColor('separator')
+    //width: 3,
+    backgroundColor: 'red', // PlatformColor('separator'),
+    opacity: 1,
   },
   segment: {
     flex: 1,
-    marginVertical: iosTabVerticalSpacing,
-    borderRadius,
+    borderRadius: 7,
     flexDirection: 'row',
     justifyContent: 'center',
+
+    // borderColor: 'red',
+    // borderWidth: 0.6,
   },
   label: {
     color: PlatformColor('label'),
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   activeSegment: {
-    backgroundColor: PlatformColor('systemBackground')
+
   },
   activeLabel: {
     color: PlatformColor('label'),
