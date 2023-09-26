@@ -2,7 +2,7 @@ import { StyleSheet, View, Animated } from 'react-native';
 import type { SegmentedControlProps } from '../@types';
 import { useEffect, useRef, useState } from 'react';
 import SegmentIOS from '../Segment/SegmentIOS';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PlatformColor } from 'react-native';
 import { segmentStylesIOS } from '../Segment/SegmentIOS';
 import { easeOutCubic } from '../utils';
@@ -76,6 +76,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   }
   
   return (
+    <GestureHandlerRootView style={{flex: 1}} >
     <View style={[styles.container]}>
       <GestureDetector gesture={panGesture}>
         <View
@@ -113,6 +114,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
         </View>
       </GestureDetector>
     </View>
+    </GestureHandlerRootView>
   )
 }
 

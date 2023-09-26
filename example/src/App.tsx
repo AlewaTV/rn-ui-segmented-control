@@ -3,11 +3,9 @@ import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import { SegmentedControl } from 'rn-ui-segmented-control';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <SegmentedControl 
           labels={['Day', 'Week', 'Month']}
@@ -15,7 +13,6 @@ export default function App() {
           selectedIndex={0}
         />
       </View>
-    </GestureHandlerRootView>
   );
 }
 
