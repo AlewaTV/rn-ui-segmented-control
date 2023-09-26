@@ -14950,7 +14950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.13.1":
+"react-native-gesture-handler@npm:>=2.12.1":
   version: 2.13.1
   resolution: "react-native-gesture-handler@npm:2.13.1"
   dependencies:
@@ -15728,7 +15728,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.72.4
     react-native-builder-bob: ^0.20.0
-    react-native-gesture-handler: ^2.13.1
+    react-native-gesture-handler: ">=2.12.1"
     react-test-renderer: ^18.2.0
     release-it: ^15.0.0
     typescript: ^5.0.2
