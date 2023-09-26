@@ -118,8 +118,6 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   )
 }
 
-export default SegmentedControlIOS
-
 const styles = StyleSheet.create({
   container: {
     position: 'relative',

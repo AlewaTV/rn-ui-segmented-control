@@ -11,6 +11,7 @@ export default function App() {
           labels={['Day', 'Week', 'Month']}
           renderSeparators={true}
           selectedIndex={0}
+          style={{width: '90%', marginTop: 100}}
         />
       </View>
   );
@@ -19,6 +20,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -45,8 +45,6 @@ export const SegmentAndroid: React.FC<SegmentAndroidProps> = (props) => {
   )
 }
 
-export default SegmentAndroid
-
 const { borderColor, activeTextColor } = theme.color;
 
 export const androidTabBarHeight = 40;

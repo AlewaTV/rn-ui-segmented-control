@@ -13,8 +13,6 @@ export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (
   )
 }
 
-export default SegmentedControlAndroid
-
 const styles = StyleSheet.create({
   tabsContainerStyle: {
 
