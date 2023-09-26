@@ -1,5 +1,5 @@
 import { StyleSheet, View, Animated } from 'react-native';
-import type { SegmentedControlProps } from '../@types';
+import type { SegmentedControlProps } from '../types';
 import { useEffect, useRef, useState } from 'react';
 import SegmentIOS from '../Segment/SegmentIOS';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -49,12 +49,8 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   }, [containerWidth, selectedIndex]);
 
   const panGesture = Gesture.Pan().onChange(evt => {
-    let index = Math.floor(evt.x / segmentWidth);
-    if (index > length - 1) index = length - 1;
-    else if (index < 0) index = 0;
-    if (index !== selectedIndex) {
-      onIndexChange?.(index, labels[index] as string);
-    }
+    // TODO: implement pan gesture...
+    evt.x
   });
 
   const handleIndexChange = (index: number, label: string) => {
@@ -76,11 +72,11 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   }
   
   return (
-    <GestureHandlerRootView style={{flex: 1}} >
-    <View style={[styles.container]}>
+    <GestureHandlerRootView>
+    <View style={[styles.container, style]}>
       <GestureDetector gesture={panGesture}>
         <View
-          style={[styles.segments, style]}
+          style={[styles.segments]}
           onLayout={event => {
             setContainerWidth(event.nativeEvent.layout.width);
           }}
@@ -101,9 +97,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
               isActive={selectedIndex === index}
               isFirst={index === 0}
               isLast={index === length - 1}
-              renderLeftSeparator={
-                renderSeparators // && shouldRenderLeftSeparator(index, selectedIndex)
-              }
+              renderLeftSeparator={ renderSeparators }
               key={index}
               style={[segmentStyle, {width: segmentWidth,}]}
               labelStyle={labelStyle}
@@ -126,7 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: PlatformColor('secondarySystemFill'),
+    backgroundColor: PlatformColor('systemGroupedBackground'),
     borderRadius: 7,
 
     // borderColor: 'blue', // PlatformColor('separator'),

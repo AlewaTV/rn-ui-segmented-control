@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import type { SegmentedControlProps } from "../@types";
+import type { SegmentedControlProps } from "../types";
 
 export interface SegmentedControlAndroidProps extends SegmentedControlProps {
 

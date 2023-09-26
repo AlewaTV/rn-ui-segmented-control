@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import type { SegmentProps } from "../@types";
+import type { SegmentProps } from "../types";
 import { Pressable } from "react-native";
 import theme from "../theme";
 

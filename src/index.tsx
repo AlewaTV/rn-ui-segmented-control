@@ -14,4 +14,4 @@ export {
   type SegmentAndroidProps
 } from './Segment';
 
-export * from './@types'
+export * from './types'

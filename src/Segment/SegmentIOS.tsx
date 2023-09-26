@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import type { SegmentProps } from "../@types";
-import theme from "../theme";
-import { PlatformColor } from "react-native";
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import type { SegmentProps } from '../types';
+import theme from '../theme';
+import { PlatformColor } from 'react-native';
+
 
 export interface SegmentIOSProps extends SegmentProps {
 
@@ -30,7 +31,8 @@ export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
       {renderLeftSeparator && (
         <View
           style={[styles.separator, separatorStyle]}
-        ></View>
+          collapsable={false}
+        />
       )}
       <Pressable onPress={onPress}>
         <View style={[
@@ -39,13 +41,18 @@ export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
           isFirst && styles.firstSegment,
           isLast && styles.lastSegment
           ]}>
-          <Text style={[
-            styles.label, labelStyle, 
-            isActive && styles.activeLabel, isActive && activeLabelStyle
-          ]}
-          >
-            {label}
-          </Text>
+            { isActive 
+            ? <Text style={[
+                styles.label, labelStyle, 
+                styles.activeLabel, activeLabelStyle
+              ]}
+              >
+                {label}
+              </Text>
+            : <Text style={[styles.label, labelStyle]}>
+                {label}
+              </Text>
+            }
         </View>
       </Pressable>
     </View>
@@ -64,11 +71,12 @@ export const iosTabVerticalSpacing = gap;
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    flexDirection: "row", 
-    alignItems: "center" 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'flex-start',
   },
   separator: {
-    height: "50%",
+    height: '50%',
     width: 1,
     backgroundColor: PlatformColor('separator')
   },
@@ -83,14 +91,14 @@ const styles = StyleSheet.create({
     color: PlatformColor('label'),
     fontFamily: theme.fontFamily.normal,
     fontSize: 15,
-    alignSelf: "center"
+    alignSelf: 'center'
   },
   activeSegment: {
     backgroundColor: PlatformColor('systemBackground')
   },
   activeLabel: {
     color: PlatformColor('label'),
-    fontWeight: '400',
+    fontWeight: '600',
   },
   firstSegment: { marginLeft: 0 },
   lastSegment: { marginRight: 0 }
