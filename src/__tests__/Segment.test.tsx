@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react-native'
-import Segment from "../Segment";
+import { Segment } from "../Segment";
 
 
 test('given empty GroceryShoppingList, user can add an item to it', () => {
