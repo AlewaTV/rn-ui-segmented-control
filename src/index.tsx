@@ -13,3 +13,5 @@ export {
   type SegmentIOSProps,
   type SegmentAndroidProps
 } from './Segment';
+
+export * from './@types'
