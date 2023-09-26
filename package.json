@@ -91,6 +91,10 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
+      "./node_modules/react-native-reanimated/jestSetup.js"
+    ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
     ],
@@ -164,5 +168,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-native-gesture-handler": "^2.13.1"
   }
 }

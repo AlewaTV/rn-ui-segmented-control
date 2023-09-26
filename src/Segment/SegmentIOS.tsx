@@ -54,12 +54,9 @@ export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
 
 export default SegmentIOS
 
-const {
-  activeBgColor,
-} = theme.color;
 
 const borderRadius = 7;
-const gap = 2;
+const gap = 1.5;
 
 export const iosTabVerticalSpacing = gap;
 
@@ -78,22 +75,25 @@ const styles = StyleSheet.create({
   segment: {
     flex: 1,
     marginVertical: iosTabVerticalSpacing,
-    borderRadius
+    borderRadius,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   label: {
     color: PlatformColor('label'),
     fontFamily: theme.fontFamily.normal,
-    fontSize: theme.fontSize.l,
-    paddingVertical: 2 * gap,
-    paddingHorizontal: 2 * gap,
+    fontSize: 15,
     alignSelf: "center"
   },
   activeSegment: {
-    backgroundColor: activeBgColor
+    backgroundColor: PlatformColor('systemBackground')
   },
   activeLabel: {
-    color: PlatformColor('label')
+    color: PlatformColor('label'),
+    fontWeight: '400',
   },
   firstSegment: { marginLeft: 0 },
   lastSegment: { marginRight: 0 }
 })
+
+export {styles as segmentStylesIOS}

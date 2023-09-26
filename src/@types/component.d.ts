@@ -19,10 +19,10 @@ export interface SegmentProps {
 }
 
 export interface SegmentedControlProps {
-  values: string[],
-  onIndexChange: (index: number) => void,
-  renderSeparators: boolean,
-  selectedIndex: number
+  labels: string[],
+  onIndexChange?: (index: number, label: string) => void,
+  renderSeparators?: boolean,
+  selectedIndex?: number
 
   style?: StyleProp<ViewStyle>
   segmentStyle?: StyleProp<ViewStyle>
