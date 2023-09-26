@@ -1,40 +1,78 @@
 import { StyleSheet, Text, View } from "react-native";
-import type { SegmentProps, SegmentedControlStyle } from "../@types";
+import type { SegmentProps } from "../@types";
+import { Pressable } from "react-native";
+import theme from "../theme";
 
 export interface SegmentAndroidProps extends SegmentProps {
 
 }
 
 export const SegmentAndroid: React.FC<SegmentAndroidProps> = (props) => {
+  const {
+    label,
+    onPress,
+    isActive,
+    isFirst,
+    isLast,
+
+    style: tabStyle,
+    labelStyle,
+    activeSegmentStyle,
+    activeLabelStyle,
+  } = props
+
   return (
-    <View style={[styles.tabsContainerStyle]}>
-      <Text>{props.label}</Text>
-    </View>
+    <Pressable
+      onPress={onPress}
+      // @see https://reactnative.dev/docs/pressable#rippleconfig
+      android_ripple={{color: theme.color.ripple, borderless: true, foreground: true}}
+    >
+      <View style={[
+          styles.tab, tabStyle,
+          isActive && styles.activeTab, isActive && activeSegmentStyle,
+          isFirst && styles.firstTab,
+          isLast && styles.lastTab
+      ]}>
+          <Text style={[
+                styles.label, labelStyle, 
+                isActive && styles.activeLabel, isActive && activeLabelStyle
+              ]}
+              >
+                {label}
+          </Text>
+      </View>
+    </Pressable>
   )
 }
 
 export default SegmentAndroid
 
-const styles: SegmentedControlStyle = StyleSheet.create({
-  tabsContainerStyle: {
+const { borderColor, activeTextColor } = theme.color;
 
-  },
-  tabStyle: {
+export const androidTabBarHeight = 40;
 
-  },
-  tabTextStyle: {
+const fontStyles = {
+  fontFamily: theme.fontFamily.normal,
+  fontSize: theme.fontSize.l,
+  color: activeTextColor
+};
 
-  },
-  activeTabStyle: {
+const gap = theme.spacing.s;
 
+const styles = StyleSheet.create({
+  tab: {
+    flex: 1,
+    paddingVertical: gap,
+    paddingHorizontal: 2 * gap
   },
-  activeTabTextStyle: {
-
+  label: { ...fontStyles, alignSelf: "center" },
+  activeTab: {
+    borderBottomWidth: theme.spacing.xs,
+    borderBottomColor: borderColor
   },
-  firstTabStyle: {
-
+  activeLabel: {
+    ...fontStyles
   },
-  lastTabStyle: {
-
-  },
+  firstTab: {},
+  lastTab: {}
 })
