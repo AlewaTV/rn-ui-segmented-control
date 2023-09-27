@@ -19,9 +19,10 @@ export interface SegmentProps extends AccessibilityProps {
 
 export interface SegmentedControlProps extends AccessibilityProps {
   labels: string[],
-  onIndexChange?: (index: number, label: string) => void,
+  onIndexChange?: (index: number, label: string) => void, // in 'single' mode
+  onSelectionChange?: (selection: number[]) => void, // in 'multiple' mode
   renderSeparators?: boolean,
-  selectedIndex?: number
+  selectedIndex?: number | number[]
   mode?: 'single' | 'multiple'
 
   style?: StyleProp<ViewStyle>

@@ -91,6 +91,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@react-native|react-native|react-native-haptic-feedback)/)"
+    ],
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
@@ -170,6 +173,7 @@
     ]
   },
   "dependencies": {
-    "react-native-gesture-handler": ">=2.12.1"
+    "react-native-gesture-handler": ">=2.12.1",
+    "react-native-haptic-feedback": ">=2.0.3"
   }
 }

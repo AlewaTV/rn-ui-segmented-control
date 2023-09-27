@@ -5,7 +5,8 @@ import SegmentIOS from '../Segment/SegmentIOS';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { PlatformColor } from 'react-native';
 import { segmentStylesIOS } from '../Segment/SegmentIOS';
-import { easeOutCubic } from '../utils';
+import { easeOutCubic, triggerHapticFeedback } from '../utils';
+
 
 export interface SegmentedControlIOSProps extends SegmentedControlProps {
   buttonStyle?: StyleProp<ViewStyle>
@@ -18,9 +19,11 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
     labels,
     mode = 'single',
     onIndexChange,
+    onSelectionChange,
+    selectedIndex: _selectedIndex = 0,
     renderSeparators = true,
     easing,
-    animate = true,
+    animate: _animate = true,
 
     style,
     segmentStyle,
@@ -34,7 +37,10 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
     accessibilityHint = `You can select 1 ${mode === 'multiple' ? 'or more' : '' } of ${labels.length} tabs`
   } = props
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const animate =  _animate && (mode === 'single')
+
+  const [selection, updateSelection] = useState<number[] | undefined>(Array.isArray(_selectedIndex) ? _selectedIndex : undefined)
+  const [selectedIndex, setSelectedIndex] = useState(typeof _selectedIndex === 'number' ? _selectedIndex : 0);
   const [previousIndex, setPreviousIndex] = useState(0);
 
   const slideAnimRef = useRef(new Animated.Value(0)).current;
@@ -56,20 +62,51 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
 
   }, [containerWidth, selectedIndex]);
 
+  useEffect(() => {
+    if (selection === undefined) return
+
+    onSelectionChange?.(selection)
+  }, [selection])
+
   const panGesture = Gesture.Pan().onChange(evt => {
     // TODO: implement pan gesture...
     evt.x
   });
 
   const handleIndexChange = (index: number, label: string) => {
+    triggerHapticFeedback()
+
     setPreviousIndex(selectedIndex)
     setSelectedIndex(index);
     onIndexChange?.(index, label);
-
-    // Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
+  const toggleSelected = (index: number) => {
+    // triggerHapticFeedback()
+    updateSelection(prev => {
+      const s = prev || []
+
+      return s.includes(index) 
+          ? s.filter(k => k !== index) 
+          : [index, ...s]
+    })
+  };
+
+  const onTabPress = (index: number, label: string) => {
+    return (mode === 'single') 
+        ? handleIndexChange(index, label)
+        : toggleSelected(index)
+  }
+
+  const isActive = (index: number): boolean => {
+    return (mode === 'single') 
+        ? selectedIndex === index
+        : Boolean(selection && selection.includes(index))
+  }
+
   const leftSeparatorOpacity = (index: number, selectedIndex: number) => {
+    if (mode === 'multiple') return 1
+    
     const isFirst = index === 0;
     const isSelected = index === selectedIndex;
     const isPrevSelected = index - 1 === selectedIndex;
@@ -77,7 +114,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
       return 0.3;
     }
     return 1;
-  }
+  };
   
   return (
     <View 
@@ -113,8 +150,8 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
             <SegmentIOS
               label={label}
               index={index}
-              onPress={() => handleIndexChange(index, label)}
-              isActive={selectedIndex === index}
+              onPress={() => onTabPress(index, label)}
+              isActive={isActive(index)}
               isFirst={index === 0}
               isLast={index === length - 1}
               key={index}
