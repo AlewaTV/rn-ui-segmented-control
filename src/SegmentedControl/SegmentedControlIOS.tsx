@@ -10,14 +10,17 @@ import { easeOutCubic } from '../utils';
 export interface SegmentedControlIOSProps extends SegmentedControlProps {
   buttonStyle?: StyleProp<ViewStyle>
   easing?: (x: number) => number
+  animate?: boolean
 }
 
 export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) => {
   const {
     labels,
+    mode = 'single',
     onIndexChange,
     renderSeparators = true,
     easing,
+    animate = true,
 
     style,
     segmentStyle,
@@ -25,6 +28,10 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
     labelStyle,
     activeLabelStyle,
     separatorStyle,
+
+    accessible = true,
+    accessibilityLabel = 'Tab Bar',
+    accessibilityHint = `You can select 1 ${mode === 'multiple' ? 'or more' : '' } of ${labels.length} tabs`
   } = props
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -40,7 +47,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
     const leftVal = segmentWidth * selectedIndex;
     const duration = 200 * Math.abs(previousIndex - selectedIndex)
 
-    Animated.timing(slideAnimRef, {
+    animate && Animated.timing(slideAnimRef, {
       toValue: leftVal,
       duration, 
       easing: easing || easeOutCubic,
@@ -73,7 +80,13 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   }
   
   return (
-    <View style={[styles.container, style]}>
+    <View 
+      style={[styles.container, style]} 
+
+      accessible={accessible} 
+      accessibilityLabel={accessibilityLabel} 
+      accessibilityHint={accessibilityHint}
+      >
       <GestureDetector gesture={panGesture}>
         <View
           style={[styles.segments]}
@@ -84,18 +97,22 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
           {renderSeparators && <View style={styles.separators}>
             { labels.map((label: string, index: number) => index===0 
                         ? null 
-                        : <View style={[styles.separator, separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]} />
+                        : <View key={index} style={[styles.separator, separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]} />
                         ) }
           </View>}
-          <Animated.View
+          {animate && <Animated.View
             style={[
-            styles.button, buttonStyle,
-            { width: segmentWidth, transform: [{translateX: slideAnimRef}] }
-          ]}
-          />
+              StyleSheet.absoluteFill,
+              styles.button, buttonStyle,
+              { width: segmentWidth, transform: [{translateX: slideAnimRef}] }
+            ]}
+            accessibilityRole={'none'}
+            testID={'animated_button'}
+          />}
           {labels.map((label: string, index: number) => (
             <SegmentIOS
               label={label}
+              index={index}
               onPress={() => handleIndexChange(index, label)}
               isActive={selectedIndex === index}
               isFirst={index === 0}
@@ -105,6 +122,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
               containerStyle={[{width: index === 0 ? segmentWidth-5 : segmentWidth}]}
               labelStyle={labelStyle}
               activeLabelStyle={activeLabelStyle}
+              activeSegmentStyle={!animate && [styles.button, buttonStyle]}
             />
           ))}
         </View>
@@ -139,10 +157,6 @@ const styles = StyleSheet.create({
     // borderWidth: 0.6,
   },
   button: {
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-
     backgroundColor: PlatformColor('systemBackground'),
     borderRadius: 8,
 

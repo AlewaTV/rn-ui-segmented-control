@@ -1,16 +1,17 @@
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle, type AccessibilityPropsIOS } from 'react-native';
 import type { SegmentProps } from '../types';
 import theme from '../theme';
 import { PlatformColor } from 'react-native';
 
 
-export interface SegmentIOSProps extends SegmentProps {
+export interface SegmentIOSProps extends SegmentProps, AccessibilityPropsIOS {
   containerStyle?: StyleProp<ViewStyle>
 }
 
 export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
   const {
     label,
+    index, 
     onPress,
     isActive,
     isFirst,
@@ -19,15 +20,25 @@ export const SegmentIOS: React.FC<SegmentIOSProps> = (props) => {
     style: segmentStyle,
     containerStyle,
     labelStyle,
-    // activeSegmentStyle,
-    activeLabelStyle
+    activeSegmentStyle,
+    activeLabelStyle,
+
+    accessible = true,
+    accessibilityLabel = `Tab ${index+1}: ${label}.`,
+    accessibilityHint = 'Tap to switch to this tab.'
   } = props
 
   return (
-    <View style={[ styles.container, containerStyle ]}>
-      <Pressable onPress={onPress} style={[
+    <View 
+      style={[ styles.container, containerStyle ]} 
+      
+      accessible={accessible} 
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      >
+      <Pressable onPress={onPress} accessibilityRole='tab' style={[
             styles.segment, segmentStyle,
-            // isActive && styles.activeSegment, isActive && activeSegmentStyle,
+            isActive && styles.activeSegment, isActive && activeSegmentStyle,
             isFirst && styles.firstSegment,
             isLast && styles.lastSegment
           ]}

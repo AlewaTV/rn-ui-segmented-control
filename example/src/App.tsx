@@ -12,6 +12,7 @@ export default function App() {
           renderSeparators={true}
           selectedIndex={0}
           style={{width: '90%', marginTop: 100, alignSelf: 'center'}}
+          animate={true}
         />
       </View>
   );

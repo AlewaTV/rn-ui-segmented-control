@@ -1,8 +1,9 @@
-import type { TextStyle } from "react-native"
+import type { AccessibilityProps, TextStyle } from "react-native"
 import type { StyleProp, ViewStyle } from "react-native"
 
-export interface SegmentProps {
+export interface SegmentProps extends AccessibilityProps {
   label: string
+  index: number
   onPress: () => void
   isActive: boolean
   isFirst: boolean
@@ -16,11 +17,12 @@ export interface SegmentProps {
   lastSegmentStyle?: StyleProp<ViewStyle>
 }
 
-export interface SegmentedControlProps {
+export interface SegmentedControlProps extends AccessibilityProps {
   labels: string[],
   onIndexChange?: (index: number, label: string) => void,
   renderSeparators?: boolean,
   selectedIndex?: number
+  mode?: 'single' | 'multiple'
 
   style?: StyleProp<ViewStyle>
   segmentStyle?: StyleProp<ViewStyle>
