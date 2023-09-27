@@ -5,17 +5,31 @@ Segmented Control for iOS and Tab Control for Android.
 ## Installation
 
 ```sh
-npm install rn-ui-segmented-control
+yarn add rn-ui-segmented-control
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'rn-ui-segmented-control';
+import { View } from 'react-native';
+import { SegmentedControl } from 'rn-ui-segmented-control';
 
-// ...
+export default function App() {
+  const handleOnIndexChange = (index: number, label: string) => {
+    // ...
+  }
 
-const result = await multiply(3, 7);
+  return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <SegmentedControl 
+          labels={['Day', 'Week', 'Month']}
+          style={{width: '90%', alignSelf: 'center'}}
+          onIndexChange={handleOnIndexChange}
+        />
+      </View>
+  );
+}
+
 ```
 
 ## Contributing
