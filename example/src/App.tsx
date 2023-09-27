@@ -10,10 +10,11 @@ export default function App() {
         <SegmentedControl 
           labels={['Day', 'Week', 'Month']}
           renderSeparators={true}
-          selectedIndex={[]}
+          selectedIndex={0}
           style={{width: '90%', marginTop: 100, alignSelf: 'center'}}
-          // animate={true}
-          mode='multiple'
+          animate={true}
+          mode='single'
+          hapticFeedback={false}
         />
       </View>
   );

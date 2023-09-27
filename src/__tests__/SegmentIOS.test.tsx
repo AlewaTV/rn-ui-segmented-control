@@ -1,9 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { SegmentIOS } from '../Segment';
 
 
-test('given empty GroceryShoppingList, user can add an item to it', () => {
+test('given empty GroceryShoppingList, user can add an item to it', async () => {
   const mockFn = jest.fn();
+  jest.useFakeTimers();
+
+  const user = userEvent.setup();
 
   render(
     <SegmentIOS 
@@ -19,6 +22,9 @@ test('given empty GroceryShoppingList, user can add an item to it', () => {
   const tabs = screen.getAllByRole('tab');
   expect(tabs).toHaveLength(1);
 
-  fireEvent.press(tabs[0]); 
+  await user.press(tabs[0]); 
+  act(() => jest.runAllTimers());
   expect(mockFn).toBeCalled();
+  
+  jest.useRealTimers();
 });

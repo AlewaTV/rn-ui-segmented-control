@@ -96,5 +96,3 @@ const styles = StyleSheet.create({
   firstSegment: { marginLeft: 0 },
   lastSegment: { marginRight: 0 }
 })
-
-export {styles as segmentStylesIOS}

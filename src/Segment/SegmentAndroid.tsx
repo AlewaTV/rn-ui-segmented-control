@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
-import type { SegmentProps } from "../types";
-import { Pressable } from "react-native";
-import theme from "../theme";
+import { PlatformColor, StyleSheet, Text } from 'react-native';
+import type { SegmentProps } from '../types';
+import { Pressable } from 'react-native';
+import theme from '../theme';
 
 export interface SegmentAndroidProps extends SegmentProps {
 
@@ -26,13 +26,14 @@ export const SegmentAndroid: React.FC<SegmentAndroidProps> = (props) => {
       onPress={onPress}
       // @see https://reactnative.dev/docs/pressable#rippleconfig
       android_ripple={{color: theme.color.ripple, borderless: true, foreground: true}}
+      style={[
+        styles.tab, tabStyle,
+        isActive && styles.activeTab, isActive && activeSegmentStyle,
+        isFirst && styles.firstTab,
+        isLast && styles.lastTab
+      ]}
+      accessibilityRole='tab'
     >
-      <View style={[
-          styles.tab, tabStyle,
-          isActive && styles.activeTab, isActive && activeSegmentStyle,
-          isFirst && styles.firstTab,
-          isLast && styles.lastTab
-      ]}>
           <Text style={[
                 styles.label, labelStyle, 
                 isActive && styles.activeLabel, isActive && activeLabelStyle
@@ -40,36 +41,41 @@ export const SegmentAndroid: React.FC<SegmentAndroidProps> = (props) => {
               >
                 {label}
           </Text>
-      </View>
     </Pressable>
   )
 }
 
-const { borderColor, activeTextColor } = theme.color;
-
 export const androidTabBarHeight = 40;
 
-const fontStyles = {
-  fontFamily: theme.fontFamily.normal,
-  fontSize: theme.fontSize.l,
-  color: activeTextColor
-};
 
-const gap = theme.spacing.s;
+const gap = 2;
 
 const styles = StyleSheet.create({
   tab: {
     flex: 1,
+    width: '100%',
     paddingVertical: gap,
-    paddingHorizontal: 2 * gap
-  },
-  label: { ...fontStyles, alignSelf: "center" },
-  activeTab: {
+    paddingHorizontal: 2 * gap,
     borderBottomWidth: theme.spacing.xs,
-    borderBottomColor: borderColor
+    borderBottomColor: 'transparent',
+
+    // borderColor: 'red', // PlatformColor('separator'),
+    // borderWidth: 0.6,
+  },
+  label: { 
+    fontFamily: theme.fontFamily.normal,
+    fontSize: theme.fontSize.l,
+    color: PlatformColor('?android:attr/textColor', 'black'),
+    alignSelf: 'center' 
+  },
+  activeTab: {
+    backgroundColor: PlatformColor('@android:color/background_light', 'white'),
+    borderBottomColor: 'black', //PlatformColor('@android:color/darker_gray', 'black'),
   },
   activeLabel: {
-    ...fontStyles
+    fontFamily: theme.fontFamily.normal,
+    fontSize: theme.fontSize.l,
+    color: PlatformColor('?android:attr/textColor', 'black'),
   },
   firstTab: {},
   lastTab: {}

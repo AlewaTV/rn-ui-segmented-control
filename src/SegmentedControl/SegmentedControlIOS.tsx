@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import SegmentIOS from '../Segment/SegmentIOS';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { PlatformColor } from 'react-native';
-import { segmentStylesIOS } from '../Segment/SegmentIOS';
 import { easeOutCubic, triggerHapticFeedback } from '../utils';
 
 
@@ -24,6 +23,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
     renderSeparators = true,
     easing,
     animate: _animate = true,
+    hapticFeedback: hapticFeedbackEnabled = true,
 
     style,
     segmentStyle,
@@ -51,7 +51,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
 
   useEffect(() => {
     const leftVal = segmentWidth * selectedIndex;
-    const duration = 200 * Math.abs(previousIndex - selectedIndex)
+    const duration = 200 * Math.abs(previousIndex - selectedIndex);
 
     animate && Animated.timing(slideAnimRef, {
       toValue: leftVal,
@@ -63,9 +63,9 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   }, [containerWidth, selectedIndex]);
 
   useEffect(() => {
-    if (selection === undefined) return
+    if (selection === undefined) return;
 
-    onSelectionChange?.(selection)
+    onSelectionChange?.(selection);
   }, [selection])
 
   const panGesture = Gesture.Pan().onChange(evt => {
@@ -74,15 +74,15 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   });
 
   const handleIndexChange = (index: number, label: string) => {
-    triggerHapticFeedback()
+    hapticFeedbackEnabled && triggerHapticFeedback();
 
-    setPreviousIndex(selectedIndex)
+    setPreviousIndex(selectedIndex);
     setSelectedIndex(index);
     onIndexChange?.(index, label);
   };
 
   const toggleSelected = (index: number) => {
-    triggerHapticFeedback()
+    hapticFeedbackEnabled && triggerHapticFeedback()
 
     updateSelection(prev => {
       const s = prev || []
@@ -206,8 +206,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.07,
     shadowRadius: 4.65,
   },
-  segment: segmentStylesIOS.segment,
-  activeSegment: segmentStylesIOS.activeSegment,
   separators: {
     position: 'absolute',
     top: 0, bottom: 0,
