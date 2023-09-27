@@ -6,11 +6,11 @@ test('given empty GroceryShoppingList, user can add an item to it', () => {
   render(
     <Segment 
       label={'All'}
+      index={0}
       onPress={() => null}
       isActive={true}
       isFirst={true}
       isLast={true}
-      renderLeftSeparator={true}
      />
   );
 

@@ -82,7 +82,8 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   };
 
   const toggleSelected = (index: number) => {
-    // triggerHapticFeedback()
+    triggerHapticFeedback()
+    
     updateSelection(prev => {
       const s = prev || []
 
