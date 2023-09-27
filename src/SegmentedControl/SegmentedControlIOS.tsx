@@ -83,7 +83,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
 
   const toggleSelected = (index: number) => {
     triggerHapticFeedback()
-    
+
     updateSelection(prev => {
       const s = prev || []
 
@@ -133,7 +133,7 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
           }}
         >
           {renderSeparators && <View style={styles.separators}>
-            { labels.map((label: string, index: number) => index===0 
+            { labels.map((_: string, index: number) => index===0 
                         ? null 
                         : <View key={index} style={[styles.separator, separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]} />
                         ) }
