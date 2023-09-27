@@ -7,7 +7,6 @@ export interface SegmentProps {
   isActive: boolean
   isFirst: boolean
   isLast: boolean
-  renderLeftSeparator: boolean
 
   style?: StyleProp<ViewStyle>
   labelStyle?: StyleProp<TextStyle>
@@ -15,7 +14,6 @@ export interface SegmentProps {
   activeLabelStyle?: StyleProp<TextStyle>
   firstSegmentStyle?: StyleProp<ViewStyle>
   lastSegmentStyle?: StyleProp<ViewStyle>
-  separatorStyle?: StyleProp<ViewStyle>
 }
 
 export interface SegmentedControlProps {

@@ -81,12 +81,16 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
             setContainerWidth(event.nativeEvent.layout.width);
           }}
         >
+          {renderSeparators && <View style={styles.separators}>
+            { labels.map((label: string, index: number) => index===0 
+                        ? null 
+                        : <View style={[styles.separator, separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]} />
+                        ) }
+          </View>}
           <Animated.View
             style={[
-            { width: segmentWidth },
-            styles.segment, segmentStyle,
             styles.button, buttonStyle,
-            { transform: [{translateX: slideAnimRef}] }
+            { width: segmentWidth, transform: [{translateX: slideAnimRef}] }
           ]}
           />
           {labels.map((label: string, index: number) => (
@@ -96,12 +100,11 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
               isActive={selectedIndex === index}
               isFirst={index === 0}
               isLast={index === length - 1}
-              renderLeftSeparator={ renderSeparators }
               key={index}
-              style={[segmentStyle, {width: segmentWidth}]}
+              style={[segmentStyle]}
+              containerStyle={[{width: index === 0 ? segmentWidth-5 : segmentWidth}]}
               labelStyle={labelStyle}
               activeLabelStyle={activeLabelStyle}
-              separatorStyle={[separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]}
             />
           ))}
         </View>
@@ -121,14 +124,13 @@ const styles = StyleSheet.create({
     backgroundColor: PlatformColor('systemGroupedBackground'),
     borderRadius: 8,
 
-    // borderColor: 'blue', // PlatformColor('separator'),
-    // borderWidth: 0.6,
     paddingVertical: 3,
     paddingHorizontal: 3,
   },
   segments: {
+    flex: 1,
+    height: 36,
     position: 'relative',
-    minHeight: 36,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
 
     backgroundColor: PlatformColor('systemBackground'),
+    borderRadius: 8,
 
     shadowColor: 'rgba(0,0,0,1)',
     shadowOffset: {
@@ -153,4 +156,21 @@ const styles = StyleSheet.create({
   },
   segment: segmentStylesIOS.segment,
   activeSegment: segmentStylesIOS.activeSegment,
+  separators: {
+    position: 'absolute',
+    top: 0, bottom: 0,
+
+    height: '100%',
+    width: '100%',
+
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  separator: {
+    width: 1,
+    height: '50%',
+    borderRadius: 0.5,
+    backgroundColor: PlatformColor('separator'),
+  },
 })

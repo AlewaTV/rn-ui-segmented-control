@@ -10,7 +10,7 @@ export * from './SegmentedControlAndroid'
 
 export const SegmentedControl: React.FC<SegmentedControlProps | SegmentedControlIOSProps | SegmentedControlAndroidProps> = (props) => {
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{flex: 1}}>
       {Platform.OS === 'android' 
                         ? <SegmentedControlAndroid {...props} />
                         : <SegmentedControlIOS {...props} />
