@@ -2,7 +2,18 @@
 
 Segmented Control for iOS and Tab Control for Android.
 
+![](./example/assets/ios-demo.gif)
+
+![](./example/assets/android-demo.gif)
+
+---
+
 ## Installation
+```sh
+npm install rn-ui-segmented-control
+```
+
+## -- or --
 
 ```sh
 yarn add rn-ui-segmented-control
@@ -10,7 +21,7 @@ yarn add rn-ui-segmented-control
 
 ## Usage
 
-```js
+```ts
 import { View } from 'react-native';
 import { SegmentedControl } from 'rn-ui-segmented-control';
 
@@ -31,6 +42,43 @@ export default function App() {
 }
 
 ```
+
+## Common Props
+```ts
+export interface SegmentedControlProps extends AccessibilityProps {
+  labels: string[],
+  onIndexChange?: (index: number, label: string) => void, // in 'single' mode
+  onSelectionChange?: (selection: number[]) => void, // in 'multiple' mode
+  renderSeparators?: boolean,
+  selectedIndex?: number | number[] // Initial index...
+  mode?: 'single' | 'multiple'
+  hapticFeedback?: boolean
+
+  style?: StyleProp<ViewStyle>
+  segmentStyle?: StyleProp<ViewStyle>
+  labelStyle?: StyleProp<TextStyle>
+  activeSegmentStyle?: StyleProp<ViewStyle>
+  activeLabelStyle?: StyleProp<TextStyle>
+  separatorStyle?: StyleProp<ViewStyle>
+}
+```
+
+## iOS Specific Props
+```ts
+export interface SegmentedControlIOSProps extends SegmentedControlProps {
+  buttonStyle?: StyleProp<ViewStyle> // Similar to activeSegmentStyle but only for the animated slider
+  easing?: (x: number) => number
+  animate?: boolean
+}
+```
+
+## Android Specific Props
+```ts
+export interface SegmentedControlAndroidProps extends SegmentedControlProps {
+  android_ripple?: PressableAndroidRippleConfig | null | undefined
+}
+```
+
 
 ## Contributing
 
