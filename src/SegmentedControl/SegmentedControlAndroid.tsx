@@ -3,9 +3,10 @@ import type { SegmentedControlProps } from "../types";
 import { useEffect, useState } from "react";
 import { triggerHapticFeedback } from "../utils";
 import { SegmentAndroid } from "../Segment/SegmentAndroid";
+import type { PressableAndroidRippleConfig } from "react-native";
 
 export interface SegmentedControlAndroidProps extends SegmentedControlProps {
-
+  android_ripple?: PressableAndroidRippleConfig | null | undefined
 }
 
 export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (props) => {
@@ -22,6 +23,7 @@ export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (
     activeSegmentStyle,
     labelStyle,
     activeLabelStyle,
+    android_ripple,
 
     accessible = true,
     accessibilityLabel = 'Tab Bar',
@@ -93,6 +95,7 @@ export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (
               labelStyle={labelStyle}
               activeLabelStyle={activeLabelStyle}
               activeSegmentStyle={activeSegmentStyle}
+              android_ripple={android_ripple}
             />
           ))}
         </View>
@@ -119,8 +122,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-
-    // borderColor: 'red', // PlatformColor('separator'),
-    // borderWidth: 0.6,
   },
 })

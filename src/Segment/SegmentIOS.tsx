@@ -1,6 +1,5 @@
 import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle, type AccessibilityPropsIOS } from 'react-native';
 import type { SegmentProps } from '../types';
-import theme from '../theme';
 import { PlatformColor } from 'react-native';
 
 
@@ -77,13 +76,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center', 
-
-    // borderColor: 'red',
-    // borderWidth: 0.6,
   },
   label: {
     color: PlatformColor('label'),
-    fontFamily: theme.fontFamily.normal,
+    fontFamily: "Damascus",
     fontSize: 15,
   },
   activeSegment: {
