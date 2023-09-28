@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/AlewaTV/rn-ui-segmented-control#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "@gboyegadada:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
