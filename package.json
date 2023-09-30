@@ -1,6 +1,6 @@
 {
   "name": "rn-ui-segmented-control",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Segmented Control for iOS and Tab Control for Android.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -72,7 +72,6 @@
     "react-native": "0.72.4",
     "react-native-builder-bob": "^0.20.0",
     "react-test-renderer": "^18.2.0",
-    "release-it": "^15.0.0",
     "typescript": "^5.0.2"
   },
   "resolutions": {
