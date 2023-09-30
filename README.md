@@ -11,11 +11,9 @@ Segmented Control for iOS and Tab Control for Android.
 ## Installation
 ```sh
 npm install rn-ui-segmented-control
-```
 
-## -- or --
+# -- OR -- #
 
-```sh
 yarn add rn-ui-segmented-control
 ```
 
@@ -62,7 +60,7 @@ export default function App() {
         />
 
         <Pressable onPress={onPress}>
-          <Text>{'Switch to tab 3}</Text>
+          <Text>{'Switch to tab 3'}</Text>
         </Pressable>
       </View>
   );
