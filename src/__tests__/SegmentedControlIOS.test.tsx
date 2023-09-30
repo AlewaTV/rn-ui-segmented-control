@@ -1,6 +1,9 @@
 import { act, render, screen, userEvent } from '@testing-library/react-native'
-import { SegmentedControlIOS } from '../SegmentedControl';
+import { SegmentedControlIOS as _SegmentedControlIOS } from '../SegmentedControl';
+import { createRef, forwardRef } from 'react';
+import type { SegmentedControlRef } from '../types';
 
+const SegmentedControlIOS = forwardRef(_SegmentedControlIOS)
 
 test('given a control with 2 segments, user can press a segment to switch to it', async () => {
   const mockFn = jest.fn();
@@ -102,4 +105,22 @@ test('given a control with 3 segments, user can select all 3', async () => {
   expect(mockFn).toBeCalledWith([2, 1, 0]);
 
   jest.useRealTimers();
+});
+
+test('when ref is prop is set, we should be able to trigger index change programmatically', () => {
+  const mockFn = jest.fn();
+  const ref = createRef<SegmentedControlRef>();
+
+  render(
+    <SegmentedControlIOS 
+      labels={['Library', 'Discover']}
+      onIndexChange={(mockFn)}
+      hapticFeedback={false}
+      animate={false}
+      ref={ref}
+     />
+  );
+
+  act(() => ref.current?.goToIndex(1))
+  expect(mockFn).toBeCalledWith(1, 'Discover');
 });
