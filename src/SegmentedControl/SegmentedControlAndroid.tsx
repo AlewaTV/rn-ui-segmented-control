@@ -1,15 +1,16 @@
 import { PlatformColor, StyleSheet, View } from "react-native";
-import type { SegmentedControlProps } from "../types";
-import { useEffect, useState } from "react";
+import type { SegmentedControlProps, SegmentedControlRef } from "../types";
+import { useEffect, useState, type Ref, useImperativeHandle } from "react";
 import { triggerHapticFeedback } from "../utils";
-import { SegmentAndroid } from "../Segment/SegmentAndroid";
 import type { PressableAndroidRippleConfig } from "react-native";
+import { SegmentAndroid } from "../Segment/SegmentAndroid";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export interface SegmentedControlAndroidProps extends SegmentedControlProps {
   android_ripple?: PressableAndroidRippleConfig | null | undefined
 }
 
-export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (props) => {
+export function SegmentedControlAndroid(props: SegmentedControlAndroidProps, ref: Ref<SegmentedControlRef>) {
   const {
     labels,
     mode = 'single',
@@ -32,6 +33,12 @@ export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (
 
   const [selection, updateSelection] = useState<number[] | undefined>(Array.isArray(_selectedIndex) ? _selectedIndex : undefined)
   const [selectedIndex, setSelectedIndex] = useState(typeof _selectedIndex === 'number' ? _selectedIndex : 0);
+  const goToIndex = (index: number) => {
+    if (index > length-1 || index < 0) return
+
+    handleIndexChange(index, labels[index] as string)
+  }
+  useImperativeHandle(ref, () => ({goToIndex}))
 
   const length = labels.length;
 
@@ -74,39 +81,41 @@ export const SegmentedControlAndroid: React.FC<SegmentedControlAndroidProps> = (
   }
   
   return (
-    <View 
-      style={[styles.container, style]} 
+    <GestureHandlerRootView>
+      <View 
+        style={[styles.container, style]} 
 
-      accessible={accessible} 
-      accessibilityLabel={accessibilityLabel} 
-      accessibilityHint={accessibilityHint}
-      >
-        <View style={[styles.tabs]}>
-          {labels.map((label: string, index: number) => (
-            <SegmentAndroid
-              label={label}
-              index={index}
-              onPress={() => onTabPress(index, label)}
-              isActive={isActive(index)}
-              isFirst={index === 0}
-              isLast={index === length - 1}
-              key={index}
-              style={[segmentStyle]}
-              labelStyle={labelStyle}
-              activeLabelStyle={activeLabelStyle}
-              activeSegmentStyle={activeSegmentStyle}
-              android_ripple={android_ripple}
-            />
-          ))}
-        </View>
-    </View>
+        accessible={accessible} 
+        accessibilityLabel={accessibilityLabel} 
+        accessibilityHint={accessibilityHint}
+        >
+          <View style={[styles.tabs]}>
+            {labels.map((label: string, index: number) => (
+              <SegmentAndroid
+                label={label}
+                index={index}
+                onPress={() => onTabPress(index, label)}
+                isActive={isActive(index)}
+                isFirst={index === 0}
+                isLast={index === length - 1}
+                key={index}
+                style={[segmentStyle]}
+                labelStyle={labelStyle}
+                activeLabelStyle={activeLabelStyle}
+                activeSegmentStyle={activeSegmentStyle}
+                android_ripple={android_ripple}
+              />
+            ))}
+          </View>
+      </View>
+    </GestureHandlerRootView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    width: '95%',
+    width: '100%',
 
     flexDirection: 'row',
     justifyContent: 'center',

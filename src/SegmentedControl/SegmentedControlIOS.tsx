@@ -1,8 +1,8 @@
 import { StyleSheet, View, Animated, type StyleProp, type ViewStyle } from 'react-native';
-import type { SegmentedControlProps } from '../types';
-import { useEffect, useRef, useState } from 'react';
+import type { SegmentedControlProps, SegmentedControlRef } from '../types';
+import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import SegmentIOS from '../Segment/SegmentIOS';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PlatformColor } from 'react-native';
 import { easeOutCubic, triggerHapticFeedback } from '../utils';
 
@@ -13,7 +13,7 @@ export interface SegmentedControlIOSProps extends SegmentedControlProps {
   animate?: boolean
 }
 
-export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) => {
+export function SegmentedControlIOS (props: SegmentedControlIOSProps, ref: Ref<SegmentedControlRef>) {
   const {
     labels,
     mode = 'single',
@@ -42,6 +42,12 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   const [selection, updateSelection] = useState<number[] | undefined>(Array.isArray(_selectedIndex) ? _selectedIndex : undefined)
   const [selectedIndex, setSelectedIndex] = useState(typeof _selectedIndex === 'number' ? _selectedIndex : 0);
   const [previousIndex, setPreviousIndex] = useState(0);
+  const goToIndex = (index: number) => {
+    if (index > length-1 || index < 0) return
+
+    handleIndexChange(index, labels[index] as string)
+  }
+  useImperativeHandle(ref, () => ({goToIndex}))
 
   const slideAnimRef = useRef(new Animated.Value(0)).current;
 
@@ -118,61 +124,63 @@ export const SegmentedControlIOS: React.FC<SegmentedControlIOSProps> = (props) =
   };
   
   return (
-    <View 
-      style={[styles.container, style]} 
+    <GestureHandlerRootView>
+      <View 
+        style={[styles.container, style]} 
 
-      accessible={accessible} 
-      accessibilityLabel={accessibilityLabel} 
-      accessibilityHint={accessibilityHint}
-      >
-      <GestureDetector gesture={panGesture}>
-        <View
-          style={[styles.segments]}
-          onLayout={event => {
-            setContainerWidth(event.nativeEvent.layout.width);
-          }}
+        accessible={accessible} 
+        accessibilityLabel={accessibilityLabel} 
+        accessibilityHint={accessibilityHint}
         >
-          {renderSeparators && <View style={styles.separators}>
-            { labels.map((_: string, index: number) => index===0 
-                        ? null 
-                        : <View key={index} style={[styles.separator, separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]} />
-                        ) }
-          </View>}
-          {animate && <Animated.View
-            style={[
-              StyleSheet.absoluteFill,
-              styles.button, buttonStyle,
-              { width: segmentWidth, transform: [{translateX: slideAnimRef}] }
-            ]}
-            accessibilityRole={'none'}
-            testID={'animated_button'}
-          />}
-          {labels.map((label: string, index: number) => (
-            <SegmentIOS
-              label={label}
-              index={index}
-              onPress={() => onTabPress(index, label)}
-              isActive={isActive(index)}
-              isFirst={index === 0}
-              isLast={index === length - 1}
-              key={index}
-              style={[segmentStyle]}
-              containerStyle={[{width: index === 0 ? segmentWidth-5 : segmentWidth}]}
-              labelStyle={labelStyle}
-              activeLabelStyle={activeLabelStyle}
-              activeSegmentStyle={!animate && [styles.button, buttonStyle]}
-            />
-          ))}
-        </View>
-      </GestureDetector>
-    </View>
+        <GestureDetector gesture={panGesture}>
+          <View
+            style={[styles.segments]}
+            onLayout={event => {
+              setContainerWidth(event.nativeEvent.layout.width);
+            }}
+          >
+            {renderSeparators && <View style={styles.separators}>
+              { labels.map((_: string, index: number) => index===0 
+                          ? null 
+                          : <View key={index} style={[styles.separator, separatorStyle, {opacity: leftSeparatorOpacity(index, selectedIndex)}]} />
+                          ) }
+            </View>}
+            {animate && <Animated.View
+              style={[
+                StyleSheet.absoluteFill,
+                styles.button, buttonStyle,
+                { width: segmentWidth, transform: [{translateX: slideAnimRef}] }
+              ]}
+              accessibilityRole={'none'}
+              testID={'animated_button'}
+            />}
+            {labels.map((label: string, index: number) => (
+              <SegmentIOS
+                label={label}
+                index={index}
+                onPress={() => onTabPress(index, label)}
+                isActive={isActive(index)}
+                isFirst={index === 0}
+                isLast={index === length - 1}
+                key={index}
+                style={[segmentStyle]}
+                containerStyle={[{width: index === 0 ? segmentWidth-5 : segmentWidth}]}
+                labelStyle={labelStyle}
+                activeLabelStyle={activeLabelStyle}
+                activeSegmentStyle={!animate && [styles.button, buttonStyle]}
+              />
+            ))}
+          </View>
+        </GestureDetector>
+      </View>
+    </GestureHandlerRootView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    width: '95%',
+    width: '100%',
 
     flexDirection: 'row',
     justifyContent: 'center',

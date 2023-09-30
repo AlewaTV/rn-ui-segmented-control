@@ -33,3 +33,7 @@ export interface SegmentedControlProps extends AccessibilityProps {
   activeLabelStyle?: StyleProp<TextStyle>
   separatorStyle?: StyleProp<ViewStyle>
 }
+
+export interface SegmentedControlRef {
+  goToIndex(index: number): void
+}

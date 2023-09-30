@@ -2,7 +2,7 @@ import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { Segment } from "../Segment";
 
 
-test('given empty GroceryShoppingList, user can add an item to it', async () => {
+test('tab with expected label should render', async () => {
   const mockFn = jest.fn();
   jest.useFakeTimers()
 
