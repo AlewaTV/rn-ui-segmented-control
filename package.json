@@ -1,6 +1,6 @@
 {
   "name": "rn-ui-segmented-control",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Segmented Control for iOS and Tab Control for Android.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
