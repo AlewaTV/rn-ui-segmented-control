@@ -43,6 +43,33 @@ export default function App() {
 
 ```
 
+## Use with ref (new ✨)
+
+```ts
+import { View, Text, Pressable } from 'react-native';
+import { SegmentedControl } from 'rn-ui-segmented-control';
+
+export default function App() {
+  const ref = useRef<SegmentedControlRef>()
+  const onPress = () => ref.current?.goToIndex(2)
+
+  return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <SegmentedControl 
+          labels={['Day', 'Week', 'Month']}
+          style={{width: '90%', alignSelf: 'center'}}
+          ref={ref}
+        />
+
+        <Pressable onPress={onPress}>
+          <Text>{'Switch to tab 3}</Text>
+        </Pressable>
+      </View>
+  );
+}
+
+```
+
 ## Common Props
 ```ts
 export interface SegmentedControlProps extends AccessibilityProps {
@@ -60,6 +87,10 @@ export interface SegmentedControlProps extends AccessibilityProps {
   activeSegmentStyle?: StyleProp<ViewStyle>
   activeLabelStyle?: StyleProp<TextStyle>
   separatorStyle?: StyleProp<ViewStyle>
+}
+
+export interface SegmentedControlRef {
+  goToIndex(index: number): void
 }
 ```
 
