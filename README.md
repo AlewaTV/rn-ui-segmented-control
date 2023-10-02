@@ -75,11 +75,13 @@ export interface SegmentedControlProps extends AccessibilityProps {
   onIndexChange?: (index: number, label: string) => void, // in 'single' mode
   onSelectionChange?: (selection: number[]) => void, // in 'multiple' mode
   renderSeparators?: boolean,
-  selectedIndex?: number | number[] // Initial index...
+  selectedIndex?: number | number[] // Initial index
   mode?: 'single' | 'multiple'
+  size?: 'regular' | 'small' | 'mini'
   hapticFeedback?: boolean
 
   style?: StyleProp<ViewStyle>
+  containerStyle?: StyleProp<ViewStyle>
   segmentStyle?: StyleProp<ViewStyle>
   labelStyle?: StyleProp<TextStyle>
   activeSegmentStyle?: StyleProp<ViewStyle>
@@ -107,6 +109,9 @@ export interface SegmentedControlAndroidProps extends SegmentedControlProps {
   android_ripple?: PressableAndroidRippleConfig | null | undefined
 }
 ```
+
+## Exposed Style Props 
+![](./example/assets/segments-control-style.webp)
 
 
 ## Contributing

@@ -24,9 +24,11 @@ export interface SegmentedControlProps extends AccessibilityProps {
   renderSeparators?: boolean,
   selectedIndex?: number | number[]
   mode?: 'single' | 'multiple'
+  size?: 'regular' | 'small' | 'mini'
   hapticFeedback?: boolean
 
   style?: StyleProp<ViewStyle>
+  containerStyle?: StyleProp<ViewStyle>
   segmentStyle?: StyleProp<ViewStyle>
   labelStyle?: StyleProp<TextStyle>
   activeSegmentStyle?: StyleProp<ViewStyle>
