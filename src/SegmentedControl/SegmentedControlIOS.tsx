@@ -17,6 +17,7 @@ export function SegmentedControlIOS (props: SegmentedControlIOSProps, ref: Ref<S
   const {
     labels,
     mode = 'single',
+    size = 'regular',
     onIndexChange,
     onSelectionChange,
     selectedIndex: _selectedIndex = 0,
@@ -26,6 +27,7 @@ export function SegmentedControlIOS (props: SegmentedControlIOSProps, ref: Ref<S
     hapticFeedback: hapticFeedbackEnabled = true,
 
     style,
+    containerStyle,
     segmentStyle,
     buttonStyle,
     labelStyle,
@@ -38,6 +40,11 @@ export function SegmentedControlIOS (props: SegmentedControlIOSProps, ref: Ref<S
   } = props
 
   const animate =  _animate && (mode === 'single')
+  const sizeMap = {
+    regular: { height: 36, fontSize: 16 },
+    small: { height: 30, fontSize: 16 },
+    mini: { height: 24, fontSize: 15 },
+  }
 
   const [selection, updateSelection] = useState<number[] | undefined>(Array.isArray(_selectedIndex) ? _selectedIndex : undefined)
   const [selectedIndex, setSelectedIndex] = useState(typeof _selectedIndex === 'number' ? _selectedIndex : 0);
@@ -134,7 +141,7 @@ export function SegmentedControlIOS (props: SegmentedControlIOSProps, ref: Ref<S
         >
         <GestureDetector gesture={panGesture}>
           <View
-            style={[styles.segments]}
+            style={[styles.segments, {height: sizeMap[size].height}, containerStyle]}
             onLayout={event => {
               setContainerWidth(event.nativeEvent.layout.width);
             }}
@@ -165,7 +172,7 @@ export function SegmentedControlIOS (props: SegmentedControlIOSProps, ref: Ref<S
                 key={index}
                 style={[segmentStyle]}
                 containerStyle={[{width: index === 0 ? segmentWidth-5 : segmentWidth}]}
-                labelStyle={labelStyle}
+                labelStyle={[{fontSize: sizeMap[size].fontSize}, labelStyle]}
                 activeLabelStyle={activeLabelStyle}
                 activeSegmentStyle={!animate && [styles.button, buttonStyle]}
               />

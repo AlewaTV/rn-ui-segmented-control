@@ -14,12 +14,14 @@ export function SegmentedControlAndroid(props: SegmentedControlAndroidProps, ref
   const {
     labels,
     mode = 'single',
+    size = 'regular',
     onIndexChange,
     onSelectionChange,
     selectedIndex: _selectedIndex = 0,
     hapticFeedback: hapticFeedbackEnabled = true,
 
     style,
+    containerStyle,
     segmentStyle,
     activeSegmentStyle,
     labelStyle,
@@ -30,6 +32,12 @@ export function SegmentedControlAndroid(props: SegmentedControlAndroidProps, ref
     accessibilityLabel = 'Tab Bar',
     accessibilityHint = `You can select 1 ${mode === 'multiple' ? 'or more' : '' } of ${labels.length} tabs`
   } = props
+
+  const sizeMap = {
+    regular: { height: 36, fontSize: 16 },
+    small: { height: 30, fontSize: 16 },
+    mini: { height: 24, fontSize: 15 },
+  }
 
   const [selection, updateSelection] = useState<number[] | undefined>(Array.isArray(_selectedIndex) ? _selectedIndex : undefined)
   const [selectedIndex, setSelectedIndex] = useState(typeof _selectedIndex === 'number' ? _selectedIndex : 0);
@@ -89,7 +97,7 @@ export function SegmentedControlAndroid(props: SegmentedControlAndroidProps, ref
         accessibilityLabel={accessibilityLabel} 
         accessibilityHint={accessibilityHint}
         >
-          <View style={[styles.tabs]}>
+          <View style={[styles.tabs, {height: sizeMap[size].height}, containerStyle]}>
             {labels.map((label: string, index: number) => (
               <SegmentAndroid
                 label={label}
@@ -100,7 +108,7 @@ export function SegmentedControlAndroid(props: SegmentedControlAndroidProps, ref
                 isLast={index === length - 1}
                 key={index}
                 style={[segmentStyle]}
-                labelStyle={labelStyle}
+                labelStyle={[{fontSize: sizeMap[size].fontSize}, labelStyle]}
                 activeLabelStyle={activeLabelStyle}
                 activeSegmentStyle={activeSegmentStyle}
                 android_ripple={android_ripple}
