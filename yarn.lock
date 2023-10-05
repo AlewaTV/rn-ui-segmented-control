@@ -15621,8 +15621,8 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-    react-native-gesture-handler: ">=2.12.1"
-    react-native-haptic-feedback: ">=2.0.3"
+    react-native-gesture-handler: "*"
+    react-native-haptic-feedback: "*"
   languageName: unknown
   linkType: soft
 
