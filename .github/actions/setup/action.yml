@@ -25,3 +25,7 @@ runs:
       if: steps.yarn-cache.outputs.cache-hit != 'true'
       run: yarn install --immutable
       shell: bash
+    - name: Install peer dependencies
+      if: steps.yarn-cache.outputs.cache-hit != 'true'
+      run: yarn add -D react-native-gesture-handler react-native-haptic-feedback
+      shell: bash
